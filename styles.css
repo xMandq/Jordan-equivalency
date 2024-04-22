@@ -216,3 +216,44 @@ h2 {
   .right-column {
     width: 50%;
   }
+/* Add this CSS after your existing styles */
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .table-container {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  #main-section {
+    margin: 0;
+  }
+
+  table {
+    max-width: 100%;
+  }
+
+  #left-table,
+  #right-table {
+    width: 100%;
+  }
+
+  .score-section {
+    width: 90%;
+    margin: 0 auto 10px;
+  }
+  
+  .score-section select,
+  .score-section input {
+    width: calc(100% - 20px);
+  }
+}
+
+/* Add this to increase button size for touchscreens */
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+}
