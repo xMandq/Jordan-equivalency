@@ -46,21 +46,27 @@
 </style>
 </head>
 <body>
-<br>
-  <div class="manual"><a href="manual.pdf" download style="text-decoration: none;"> ⭐ دليل معادلة شهادة دبلوما الثانوية الأمريكية ⭐ </a></div>
   <br>
-  <div class="manual" style="text-decoration: none;"> ⚠️ please note to enter ACT and AP offical mark ⚠️ </a></div>
-  <div class="manual" style="text-decoration: none;"> so if you got 36 in ACT put it as 36 not 100 </a></div>
+  <div class="notes">
+    <div class="manual"><a href="manual.pdf" download style="text-decoration: none;"> ⭐ دليل معادلة شهادة دبلوما الثانوية الأمريكية ⭐ </a></div>
+    <div class="manual" style="text-decoration: none;"> ⚠️ please note to enter ACT and AP offical mark ⚠️ </div>
+    <div class="manual" style="text-decoration: none;"> 🔰 so if you got 36 in ACT put it as 36 not 100 & if you got 5 in AP put it as a 5 not a 100 🔰 </div>
+    <div class="manual" style="text-decoration: none;"> 🔰 school mark is just 1 exam, take the average of last 3 grades 🔰 </div>
+  </div>  
 <div class="container">
   <div id="main-section">
     <h2>Jordan equivalency calculator for university</h2>
-    <div id="scoreSections">
+    <br>
+    <div id="scoreSections" class="score-sections">
       <!-- Sections -->
     </div>
     <br>
-    <button id="addSection">Add Section</button>
-    <button id="calculate">Calculate</button>
-    <div id="result"></div>
+    <button id="addSection" class="button">Add Mark</button>
+    <button id="calculate" class="button">Calculate</button>
+    <br>
+    <br>
+    <div id="result" class="result"></div>
+    
   </div>
 </div>
 <div class="stars">
@@ -80,24 +86,48 @@
   </script>
 </div>
 <script>
-  const addSectionButton = document.getElementById('addSection');
-  const calculateButton = document.getElementById('calculate');
-  const resultDisplay = document.getElementById('result');
-  const scoreSectionsContainer = document.getElementById('scoreSections');
+    const addSectionButton = document.getElementById('addSection');
+    const calculateButton = document.getElementById('calculate');
+    const resultDisplay = document.getElementById('result');
+    const scoreSectionsContainer = document.getElementById('scoreSections');
 
-  let schoolAdded = false;
+    let schoolAdded = false;
+    const examWeights = {
+    'AP': 2, // Each AP is worth 2 exams
+    'School': 2, // Each School mark is worth 2 exams
+    'ACT': 1 // Each ACT is worth 1 exam
+};
 
-  function createScoreSection() {
+function calculateTotalExams() {
+    let totalExams = 0;
+    const scoreSections = document.querySelectorAll('.score-section');
+    scoreSections.forEach(section => {
+        const markType = section.querySelector('select').value;
+        totalExams += examWeights[markType] || 0;
+    });
+    return totalExams;
+}
+
+function createScoreSection() {
+    const totalExams = calculateTotalExams();
+    if (totalExams >= 8) {
+        alert("Can't add more exams, please remove other exams to add new exam.");
+        return;
+    }
+
     const newSection = document.createElement('div');
     newSection.classList.add('score-section');
 
     const markTypeSelect = document.createElement('select');
     markTypeSelect.innerHTML = `
-      <option value="">Select Type</option>
+    <div class="score-section">
+      <option value="">Select Exam</option>
       <option value="ACT">ACT</option>
       <option value="AP">AP</option>
       <option value="School">School</option>
+      </div>
     `;
+    markTypeSelect.classList.add('select-type');
     markTypeSelect.addEventListener('change', function() {
       updateScoreInput(markTypeSelect);
     });
@@ -107,14 +137,17 @@
     scoreInput.placeholder = 'Enter score';
     scoreInput.min = 0;
     scoreInput.max = 100;
+    scoreInput.classList.add('input-score');
 
     const removeButton = document.createElement('button');
     removeButton.textContent = 'Remove';
+    removeButton.classList.add('remove-button');
     removeButton.addEventListener('click', function() {
       if (markTypeSelect.value === 'School') {
         schoolAdded = false;
       }
       scoreSectionsContainer.removeChild(newSection);
+      addSectionButton.disabled = false; // Enable the "Add Mark" button when a section is removed
     });
 
     newSection.appendChild(markTypeSelect);
@@ -123,6 +156,11 @@
 
     scoreSectionsContainer.appendChild(newSection);
 
+    const newTotalExams = calculateTotalExams();
+    if (newTotalExams >= 8) {
+        addSectionButton.disabled = true; // Disable the "Add Mark" button when the maximum limit is reached
+    }
+
     if (markTypeSelect.value === 'School' && schoolAdded) {
       markTypeSelect.disabled = true;
     }
@@ -130,7 +168,7 @@
     if (markTypeSelect.value === 'School') {
       schoolAdded = true;
     }
-  }
+}
 
   addSectionButton.addEventListener('click', function() {
     if (!schoolAdded) {
@@ -175,7 +213,7 @@
     });
 
     if (!valid) {
-      resultDisplay.textContent = 'One or more marks are invalid. Please enter valid marks.';
+      resultDisplay.textContent = 'One or more marks are invalid please enter valid marks, make sure that your ACT marks are from 16-36, and make sure that your AP marks are from 2-5 ';
     } else {
       const finalMark = totalPercentage.toFixed(2);
       const make_x = 100 - finalMark
@@ -276,6 +314,8 @@
       }
     }
   }
+resultDisplay.textContent = `Enter your exam scores to get your final mark`;
+
 </script>
 <br>
 <div class="made-by">Made by Mhmd Reyad 🩷</div>
