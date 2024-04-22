@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jordan equivalency</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/c/c0/Flag_of_Jordan.svg" type="image/x-icon">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 20px auto;
+    max-width: 800px;
+  }
+
+  .table-container {
+    width: 45%;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  #main-section {
+    flex-grow: 1;
+    margin: 0 20px;
+  }
+</style>
+</head>
+<body>
+<br>
+<tr>
+    <td colspan="2"><div class="manual"><a href="manual.pdf" download style="text-decoration: none;"> ⭐ دليل معادلة شهادة دبلوما الثانوية الأمريكية ⭐ </a></div></td>
+</tr>
+<br>
+<div class="container">
+  <div id="left-table" class="table-container">
+    <table>
+      <tr>
+        <th class="imp_color">AP</th>
+        <th class="imp_color">Percentage</th>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>100%</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>93%</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>86%</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>50%</td>
+      </tr>
+    </table>
+  </div>
+  <div id="main-section">
+    <h2>Jordan equivalency calculator for university</h2>
+    <div id="scoreSections">
+      <!-- Sections -->
+    </div>
+    <br>
+    <button id="addSection">Add Section</button>
+    <button id="calculate">Calculate</button>
+    <div id="result"></div>
+  </div>
+  <div id="right-table" class="table-container">
+    <table>
+      <tr>
+        <th class="imp_color">ACT</th>
+        <th class="imp_color">Percentage</th>
+      </tr>
+      <tr>
+        <td>36</td>
+        <td>100%</td>
+      </tr>
+      <tr>
+        <td>35</td>
+        <td>99%</td>
+      </tr>
+      <tr>
+        <td>34</td>
+        <td>98%</td>
+      </tr>
+      <tr>
+        <td>33</td>
+        <td>97%</td>
+      </tr>
+      <tr>
+        <td>32</td>
+        <td>96%</td>
+      </tr>
+      <tr>
+        <td>31</td>
+        <td>95%</td>
+      </tr>
+      <tr>
+        <td>30</td>
+        <td>94%</td>
+      </tr>
+      <tr>
+        <td>29</td>
+        <td>93%</td>
+      </tr>
+      <tr>
+        <td>28</td>
+        <td>92%</td>
+      </tr>
+      <tr>
+        <td>27</td>
+        <td>91%</td>
+      </tr>
+      <tr>
+        <td>26</td>
+        <td>90%</td>
+      </tr>
+      <tr>
+        <td>25</td>
+        <td>88%</td>
+      </tr>
+      <tr>
+        <td>24</td>
+        <td>86%</td>
+      </tr>
+      <tr>
+        <td>23</td>
+        <td>84%</td>
+      </tr>
+      <tr>
+        <td>22</td>
+        <td>82%</td>
+      </tr>
+      <tr>
+        <td>21</td>
+        <td>79%</td>
+      </tr>
+      <tr>
+        <td>20</td>
+        <td>76%</td>
+      </tr>
+      <tr>
+        <td>19</td>
+        <td>73%</td>
+      </tr>
+      <tr>
+        <td>18</td>
+        <td>70%</td>
+      </tr>
+      <tr>
+        <td>17</td>
+        <td>67%</td>
+      </tr>
+      <tr>
+        <td>16</td>
+        <td>64%</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="stars"></div>
+<script>
+  const addSectionButton = document.getElementById('addSection');
+  const calculateButton = document.getElementById('calculate');
+  const resultDisplay = document.getElementById('result');
+  const scoreSectionsContainer = document.getElementById('scoreSections');
+
+  let schoolAdded = false;
+
+  function createScoreSection() {
+    const newSection = document.createElement('div');
+    newSection.classList.add('score-section');
+
+    const markTypeSelect = document.createElement('select');
+    markTypeSelect.innerHTML = `
+      <option value="">Select Type</option>
+      <option value="ACT">ACT</option>
+      <option value="AP">AP</option>
+      <option value="School">School</option>
+    `;
+    markTypeSelect.addEventListener('change', function() {
+      updateScoreInput(markTypeSelect);
+    });
+
+    const scoreInput = document.createElement('input');
+    scoreInput.type = 'number';
+    scoreInput.placeholder = 'Enter score';
+    scoreInput.min = 0;
+    scoreInput.max = 100;
+
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'Remove';
+    removeButton.addEventListener('click', function() {
+      if (markTypeSelect.value === 'School') {
+        schoolAdded = false;
+      }
+      scoreSectionsContainer.removeChild(newSection);
+    });
+
+    newSection.appendChild(markTypeSelect);
+    newSection.appendChild(scoreInput);
+    newSection.appendChild(removeButton);
+
+    scoreSectionsContainer.appendChild(newSection);
+
+    if (markTypeSelect.value === 'School' && schoolAdded) {
+      markTypeSelect.disabled = true;
+    }
+
+    if (markTypeSelect.value === 'School') {
+      schoolAdded = true;
+    }
+  }
+
+  addSectionButton.addEventListener('click', function() {
+    if (!schoolAdded) {
+      createScoreSection();
+    }
+  });
+
+  calculateButton.addEventListener('click', function() {
+    let totalPercentage = 100;
+    let valid = true;
+    const scoreSections = document.querySelectorAll('.score-section');
+
+    scoreSections.forEach(function(section) {
+      const markType = section.querySelector('select').value;
+      let score = parseFloat(section.querySelector('input').value);
+
+      switch (markType) {
+        case 'ACT':
+          if (score < 16 || score > 36) {
+            valid = false;
+          } else {
+            totalPercentage -= calculateACTPercentage(score);
+          }
+          break;
+        case 'AP':
+          if (score < 2 || score > 5) {
+            valid = false;
+          } else {
+            totalPercentage -= calculateAPPercentage(score);
+          }
+          break;
+        case 'School':
+          if (score < 0 || score > 100) {
+            valid = false;
+          } else {
+            totalPercentage -= calculateSchoolPercentage(score);
+          }
+          break;
+        default:
+          break;
+      }
+    });
+
+    if (!valid) {
+      resultDisplay.textContent = 'One or more marks are invalid. Please enter valid marks.';
+    } else {
+      const finalMark = totalPercentage.toFixed(2);
+      const make_x = 100 - finalMark
+      if (make_x > 100) {
+        resultDisplay.textContent = `Your final mark is ${finalMark}%. Seems you entered wrong amount, check again.`;
+      }
+      else {
+        resultDisplay.textContent = `Your final mark is: ${100 - finalMark}%`;
+      }
+    }
+  });
+
+  function calculateACTPercentage(score) {
+    switch (score) {
+      case 36:
+        return 12.5;
+      case 35:
+        return 12.375;
+      case 34:
+        return 12.25;
+      case 33:
+        return 12.125;
+      case 32:
+        return 12;
+      case 31:
+        return 11.875;
+      case 30:
+        return 11.75;
+      case 29:
+        return 11.625;
+      case 28:
+        return 11.5;
+      case 27:
+        return 11.375;
+      case 26:
+        return 11.25;
+      case 25:
+        return 11;
+      case 24:
+        return 10.75;
+      case 23:
+        return 10.5;
+      case 22:
+        return 10.25;
+      case 21:
+        return 9.875;
+      case 20:
+        return 9.5;
+      case 19:
+        return 9.125;
+      case 18:
+        return 8.75;
+      case 17:
+        return 8.375;
+      case 16:
+        return 8;
+      default:
+        return 0;
+    }
+  }
+
+  function calculateAPPercentage(score) {
+    switch (score) {
+      case 5:
+        return 25;
+      case 4:
+        return 23.25;
+      case 3:
+        return 21.5;
+      case 2:
+        return 12.5;
+      default:
+        return 0;
+    }
+  }
+
+  function calculateSchoolPercentage(score) {
+    return score * 0.125;
+  }
+
+  function updateScoreInput(markTypeSelect) {
+    const scoreInput = markTypeSelect.nextElementSibling;
+    const selectedMarkType = markTypeSelect.value;
+
+    if (selectedMarkType === 'School') {
+      scoreInput.type = 'number';
+      scoreInput.placeholder = 'Enter score';
+    } else {
+      scoreInput.innerHTML = '';
+      scoreInput.disabled = false;
+      const startScore = selectedMarkType === 'ACT' ? 16 : 2;
+      const endScore = selectedMarkType === 'ACT' ? 36 : 5;
+      for (let i = startScore; i <= endScore; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        scoreInput.appendChild(option);
+      }
+    }
+  }
+</script>
+<div class="made-by">Made by Mhmd Reyad 🩷</div>
+<br>
+</body>
+</html>
