@@ -182,6 +182,7 @@ h2 {
   
 .manual a {
     text-decoration: none; /* Remove underline */
+    color: rgb(255, 156, 255);
 }
 
 .container {
