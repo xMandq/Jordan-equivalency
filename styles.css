@@ -254,7 +254,3 @@ h2 {
 }
 
 /* Add this to increase button size for touchscreens */
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-}
