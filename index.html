@@ -216,7 +216,7 @@ function createScoreSection() {
     });
 
     if (!valid) {
-      resultDisplay.textContent = 'One or more marks are invalid please enter valid marks, make sure that your ACT marks are from 16-36, and make sure that your AP marks are from 2-5 ';
+      resultDisplay.textContent = 'One or more marks are invalid please enter valid marks, make sure that your ACT marks are from 16-36, and make sure that your AP marks are from 2-5, and make sure school mark is less than or equal 100 ';
     } else {
       const finalMark = totalPercentage.toFixed(2);
       const make_x = 100 - finalMark
